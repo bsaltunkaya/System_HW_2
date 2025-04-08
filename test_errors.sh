@@ -13,9 +13,6 @@ NC='\033[0m' # No Color
 # Daemon executable name
 DAEMON="./ipc_daemon"
 
-# Client executable name
-CLIENT="./ipc_client"
-
 # FIFOs for testing
 SERVER_FIFO="/tmp/ipc_server_fifo"
 CLIENT_FIFO="/tmp/ipc_client_fifo"
@@ -43,11 +40,6 @@ if [ ! -f "$DAEMON" ]; then
     exit 1
 fi
 
-if [ ! -f "$CLIENT" ]; then
-    echo -e "${RED}Error: $CLIENT not found. Please compile the client first.${NC}"
-    exit 1
-fi
-
 echo "==============================================="
 echo "      IPC DAEMON ERROR HANDLING TESTS         "
 echo "==============================================="
@@ -70,7 +62,7 @@ total_tests=$((total_tests + 1))
 # Start daemon in background
 $DAEMON $SERVER_FIFO &
 daemon_pid=$!
-sleep 0.5
+sleep 1
 
 # Create client FIFO
 mkfifo $CLIENT_FIFO 2>/dev/null
@@ -97,7 +89,7 @@ total_tests=$((total_tests + 1))
 # Start daemon in background
 $DAEMON $SERVER_FIFO &
 daemon_pid=$!
-sleep 0.5
+sleep 1
 
 # Create very large message (100KB)
 dd if=/dev/urandom bs=1024 count=100 2>/dev/null | base64 > /tmp/test_large_msg
@@ -124,7 +116,7 @@ total_tests=$((total_tests + 1))
 # Start daemon in background
 $DAEMON $SERVER_FIFO &
 daemon_pid=$!
-sleep 0.5
+sleep 1
 
 # Try to start another daemon instance on same FIFO
 second_output=$($DAEMON $SERVER_FIFO 2>&1)
@@ -136,8 +128,7 @@ else
 fi
 
 # Clean up
-kill $daemon_pid
-sleep 0.5
+kill $daemon_pid 2>/dev/null
 
 # Print test results
 echo -e "\n==============================================="

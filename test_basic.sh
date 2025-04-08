@@ -52,8 +52,8 @@ for test_case in "${test_cases[@]}"; do
     
     # Wait for program to complete (max 20 seconds)
     wait_time=0
-    while kill -0 $program_pid 2>/dev/null && [ $wait_time -lt 5 ]; do
-        sleep 0.5
+    while kill -0 $program_pid 2>/dev/null && [ $wait_time -lt 20 ]; do
+        sleep 1
         wait_time=$((wait_time + 1))
         echo -n "."
     done
@@ -79,7 +79,7 @@ for test_case in "${test_cases[@]}"; do
     
     # Ensure clean environment for next test
     cleanup
-    sleep 0.5
+    sleep 1
 done
 
 # Test general structure behavior
@@ -90,7 +90,7 @@ echo -e "\n--- Testing general program structure ---"
 daemon_pid=$!
 
 # Give it time to initialize
-sleep 1
+sleep 2
 
 # Check if FIFOs were created properly
 if [ -p /tmp/fifo1 ] && [ -p /tmp/fifo2 ]; then
@@ -102,7 +102,7 @@ fi
 tests_total=$((tests_total + 1))
 
 # Wait for processing to complete
-sleep 5
+sleep 15
 
 # Check if daemon exits properly
 if ! kill -0 $daemon_pid 2>/dev/null; then

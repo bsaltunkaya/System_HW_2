@@ -13,9 +13,6 @@ NC='\033[0m' # No Color
 # Daemon executable name
 DAEMON="./ipc_daemon"
 
-# Client executable name
-CLIENT="./ipc_client"
-
 # FIFOs for testing
 SERVER_FIFO="/tmp/ipc_server_fifo"
 CLIENT_FIFO="/tmp/ipc_client_fifo"
@@ -53,11 +50,6 @@ if [ ! -f "$DAEMON" ]; then
     exit 1
 fi
 
-if [ ! -f "$CLIENT" ]; then
-    echo -e "${RED}Error: $CLIENT not found. Please compile the client first.${NC}"
-    exit 1
-fi
-
 # Check if performance measurement tools are available
 if ! command -v bc &> /dev/null; then
     echo -e "${RED}Error: 'bc' command not found. Please install bc for math calculations.${NC}"
@@ -79,7 +71,7 @@ total_tests=$((total_tests + 1))
 # Start daemon in background
 $DAEMON $SERVER_FIFO &
 daemon_pid=$!
-sleep 0.5
+sleep 1
 
 # Create client FIFO if it doesn't exist
 if [ ! -e "$CLIENT_FIFO" ]; then
@@ -124,7 +116,7 @@ fi
 
 # Kill daemon
 kill $daemon_pid
-sleep 0.5
+sleep 1
 
 # Test 2: Response latency
 echo -e "\n${YELLOW}Test 2: Message response latency${NC}"
@@ -133,7 +125,7 @@ total_tests=$((total_tests + 1))
 # Start daemon in background
 $DAEMON $SERVER_FIFO &
 daemon_pid=$!
-sleep 0.5
+sleep 1
 
 # Create client FIFO if it doesn't exist
 if [ ! -e "$CLIENT_FIFO" ]; then
@@ -175,7 +167,7 @@ fi
 
 # Kill daemon
 kill $daemon_pid
-sleep 0.5
+sleep 1
 
 # Test 3: CPU usage
 echo -e "\n${YELLOW}Test 3: CPU usage under load${NC}"
@@ -186,7 +178,7 @@ if command -v time &> /dev/null; then
     # Start daemon with time measurement
     /usr/bin/time -f "%P" -o /tmp/perf_test_cpu $DAEMON $SERVER_FIFO &
     daemon_pid=$!
-    sleep 0.5
+    sleep 1
     
     # Create client FIFO if it doesn't exist
     if [ ! -e "$CLIENT_FIFO" ]; then
@@ -201,7 +193,7 @@ if command -v time &> /dev/null; then
     done
     
     # Give it time to process
-    sleep 1
+    sleep 2
     
     # Kill daemon
     kill $daemon_pid
@@ -229,7 +221,7 @@ total_tests=$((total_tests + 1))
 # Start daemon in background
 $DAEMON $SERVER_FIFO &
 daemon_pid=$!
-sleep 0.5
+sleep 1
 
 # Create client FIFO if it doesn't exist
 if [ ! -e "$CLIENT_FIFO" ]; then
@@ -249,7 +241,7 @@ if [ -e "/proc/$daemon_pid/status" ]; then
     done
     
     # Wait a moment
-    sleep 1
+    sleep 2
     
     # Get final memory usage
     final_mem=$(grep VmRSS /proc/$daemon_pid/status | awk '{print $2}')

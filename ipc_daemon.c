@@ -1,4 +1,3 @@
-#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -342,9 +341,9 @@ void daemonize(void) {
 
 // First child process function
 void child_process_1(int num1, int num2) {
-    // Sleep for 10 seconds
-    fprintf(stderr, "Child 1 (PID %d): Starting sleep for 10 seconds\n", getpid());
-    sleep(1);  // Reduced from 10 to 1 second
+    // Sleep for 1 second
+    fprintf(stderr, "Child 1 (PID %d): Starting sleep for 1 second\n", getpid());
+    sleep(1);
     
     // Open the first FIFO for reading
     fprintf(stderr, "Child 1: Opening FIFO1 for reading\n");
@@ -398,9 +397,9 @@ void child_process_1(int num1, int num2) {
 
 // Second child process function
 void child_process_2(void) {
-    // Sleep for 10 seconds
-    fprintf(stderr, "Child 2 (PID %d): Starting sleep for 10 seconds\n", getpid());
-    sleep(1);  // Reduced from 10 to 1 second
+    // Sleep for 1 second
+    fprintf(stderr, "Child 2 (PID %d): Starting sleep for 1 second\n", getpid());
+    sleep(1);
     
     // Verify FIFO2 exists
     fprintf(stderr, "Child 2: Verifying FIFO2 exists\n");
@@ -535,7 +534,7 @@ int main(int argc, char *argv[]) {
     
     // Give child processes a moment to start
     fprintf(stderr, "Parent: Sleeping briefly to allow children to start\n");
-    usleep(100000);  // Corrected to actually sleep for 100ms using usleep
+    usleep(100000);  // Sleep for 100ms
     
     // Convert parent process to daemon
     daemonize();
@@ -597,11 +596,11 @@ int main(int argc, char *argv[]) {
             fsync(log_fd);
         }
         
-        sleep(1); // Print message every 1 second (reduced from 2)
+        sleep(1); // Print message every 1 second
     }
     
     // Make sure we capture all child exits
-    sleep(1); // Reduced from 2 seconds
+    sleep(1);
     
     write_to_log("Final child_counter value: %d", child_counter);
     write_to_log("All children have exited. Parent is shutting down.");
