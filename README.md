@@ -12,11 +12,13 @@ This program demonstrates inter-process communication (IPC) using named pipes (F
 - Structured error handling with error control block
 - Comprehensive logging to a file
 - FIFO existence verification
+- Optimized performance with minimal processing delays
 
 ## Requirements
 
 - C compiler (gcc)
 - Debian 12 or compatible Linux distribution
+- Basic command-line utilities (bash, bc, time) for running tests
 
 ## Building
 
@@ -46,7 +48,7 @@ The program will:
 2. Create two FIFOs (or verify they exist)
 3. Fork two child processes
 4. Daemonize itself (becoming a background process)
-5. The child processes will sleep for 10 seconds, then determine the larger number
+5. The child processes will briefly sleep (1 second), then determine the larger number
 6. The result will be written to the log file at `/tmp/daemon.log`
 
 ## Monitoring
@@ -85,4 +87,66 @@ The daemon responds to the following signals:
 
 ## Timeout Protection
 
-The daemon implements a timeout mechanism to detect and terminate unresponsive child processes after 20 seconds. 
+The daemon implements a timeout mechanism to detect and terminate unresponsive child processes after 20 seconds.
+
+## Test Suite
+
+The project includes a comprehensive test suite to verify the daemon's functionality, error handling, and performance:
+
+### Running All Tests
+
+To run the complete test suite:
+
+```
+./run_all_tests.sh
+```
+
+This script will run both error handling and performance tests, providing a comprehensive summary of all test results.
+
+### Individual Test Scripts
+
+The following tests are available:
+
+#### Basic Functionality Tests
+```
+./test_basic.sh
+```
+Tests core functionality with various input combinations, verifying FIFO creation and daemon exit behavior.
+
+#### Error Handling Tests
+```
+./test_errors.sh
+```
+Verifies the daemon's ability to handle error conditions including:
+- Invalid FIFO paths
+- Malformed messages
+- Buffer overflow attempts
+- Multiple client connections
+
+#### Performance Tests
+```
+./test_performance.sh
+```
+Measures performance metrics including:
+- Message throughput (messages per second)
+- Response latency (milliseconds)
+- CPU usage under load
+- Memory usage stability
+
+### Test Requirements
+
+The performance test suite requires the `bc` utility for calculations and benefits from the `time` command for CPU usage measurements.
+
+## Performance Optimizations
+
+The daemon has been optimized to minimize unnecessary delays:
+- Reduced sleep times for faster operation
+- Efficient error handling with minimal overhead
+- Streamlined process synchronization
+- Proper resource cleanup to prevent leaks
+
+## Debugging
+
+For troubleshooting, examine the following files:
+- `/tmp/daemon.log`: Main daemon log
+- `test_logs/`: Directory containing logs from test runs 
