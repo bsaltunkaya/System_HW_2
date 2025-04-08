@@ -1,0 +1,47 @@
+===== BASIC FUNCTIONALITY TESTS =====
+Testing basic execution with different valid inputs
+
+--- Testing: Regular positive numbers ---
+Input: 40 20, Expected larger: 40
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Regular number order reversed ---
+Input: 20 40, Expected larger: 40
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Equal numbers ---
+Input: 30 30, Expected larger: 30
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Zero and positive ---
+Input: 0 10, Expected larger: 10
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Negative numbers ---
+Input: -10 -5, Expected larger: -5
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Large positive difference ---
+Input: 1000 1, Expected larger: -1000
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Very large numbers ---
+Input: 2147483647 1073741824, Expected larger: 2147483647
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing general program structure ---
+PASS: FIFOs created successfully
+Child process 1 (PID 12716): Determined larger number is 40
+Child process 2 (PID 12717): The larger number is 40
+PASS: Daemon exited properly
+
+===== BASIC TEST RESULTS =====
+Tests passed: 2 / 9
+Some basic functionality tests FAILED!

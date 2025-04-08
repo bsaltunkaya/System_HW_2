@@ -1,27 +1,302 @@
-root@vbox:~/Desktop/System_HW_2# make
-gcc -Wall -Wextra -pedantic -std=c99 -o ipc_daemon ipc_daemon.c
-ipc_daemon.c: In function ‘main’:
-ipc_daemon.c:484:22: error: storage size of ‘sa’ isn’t known
-  484 |     struct sigaction sa;
-      |                      ^~
-ipc_daemon.c:487:19: error: ‘SA_RESTART’ undeclared (first use in this function); did you mean ‘ERESTART’?
-  487 |     sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;
-      |                   ^~~~~~~~~~
-      |                   ERESTART
-ipc_daemon.c:487:19: note: each undeclared identifier is reported only once for each function it appears in
-ipc_daemon.c:487:32: error: ‘SA_NOCLDSTOP’ undeclared (first use in this function)
-  487 | flags = SA_RESTART | SA_NOCLDSTOP;
-      |                      ^~~~~~~~~~~~
+root@vbox:~/Desktop/System_HW_2# ./run_all_tests.sh 
+===============================================
+           IPC DAEMON TEST SUITE              
+===============================================
+Running tests at Tue Apr  8 03:37:16 PM +03 2025
+System: Linux vbox 6.1.0-32-arm64 #1 SMP Debian 6.1.129-1 (2025-03-06) aarch64 GNU/Linux
 
-ipc_daemon.c:488:5: warning: implicit declaration of function ‘sigaction’ [-Wimplicit-function-declaration]
-  488 |     sigaction(SIGCHLD, &sa, NULL);
-      |     ^~~~~~~~~
-ipc_daemon.c:521:23: warning: implicit declaration of function ‘kill’ [-Wimplicit-function-declaration]
-  521 |        if (pid1 > 0) kill(pid1, SIGTERM);
-      |                      ^~~~
 
-ipc_daemon.c:484:22: warning: unused variable ‘sa’ [-Wunused-variable]
-  484 |     struct sigaction sa;
-      |                      ^~
-make: *** [Makefile:8: ipc_daemon] Error 1
+Running Basic Functionality Tests...
+===== BASIC FUNCTIONALITY TESTS =====
+Testing basic execution with different valid inputs
+
+--- Testing: Regular positive numbers ---
+Input: 40 20, Expected larger: 40
+Starting program with arguments: 40 20
+Parsed arguments: num1=40, num2=20
+Verifying/creating FIFOs
+Checking FIFO: /tmp/fifo1
+Creating FIFO: /tmp/fifo1
+FIFO created successfully: /tmp/fifo1
+Checking FIFO: /tmp/fifo2
+Creating FIFO: /tmp/fifo2
+FIFO created successfully: /tmp/fifo2
+Setting up signal handlers
+Creating first child process
+Parent: Created first child with PID 12571
+Creating second child process
+Parent: Created second child with PID 12572
+Parent: Sleeping briefly to allow children to start
+Child 2 (PID 12572): Starting sleep for 10 seconds
+Child 1 (PID 12571): Starting sleep for 10 seconds
+Starting daemonization process...
+Parent exiting after first fork, daemon continuing with PID 12573
+First child process continuing (PID: 12573)
+Session ID set successfully
+First child exiting after second fork, daemon continuing with PID 12574
+Second child process continuing as daemon (PID: 12574)
+Changing directory to /
+Log file opened successfully: /tmp/daemon.log
+Closing standard file descriptors
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Regular number order reversed ---
+Input: 20 40, Expected larger: 40
+Starting program with arguments: 20 40
+Parsed arguments: num1=20, num2=40
+Verifying/creating FIFOs
+Checking FIFO: /tmp/fifo1
+Creating FIFO: /tmp/fifo1
+FIFO created successfully: /tmp/fifo1
+Checking FIFO: /tmp/fifo2
+Creating FIFO: /tmp/fifo2
+FIFO created successfully: /tmp/fifo2
+Setting up signal handlers
+Creating first child process
+Parent: Created first child with PID 12599
+Creating second child process
+Parent: Created second child with PID 12600
+Parent: Sleeping briefly to allow children to start
+Child 2 (PID 12600): Starting sleep for 10 seconds
+Child 1 (PID 12599): Starting sleep for 10 seconds
+Starting daemonization process...
+Parent exiting after first fork, daemon continuing with PID 12601
+First child process continuing (PID: 12601)
+Session ID set successfully
+First child exiting after second fork, daemon continuing with PID 12602
+Second child process continuing as daemon (PID: 12602)
+Changing directory to /
+Log file opened successfully: /tmp/daemon.log
+Closing standard file descriptors
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Equal numbers ---
+Input: 30 30, Expected larger: 30
+Starting program with arguments: 30 30
+Parsed arguments: num1=30, num2=30
+Verifying/creating FIFOs
+Checking FIFO: /tmp/fifo1
+Creating FIFO: /tmp/fifo1
+FIFO created successfully: /tmp/fifo1
+Checking FIFO: /tmp/fifo2
+Creating FIFO: /tmp/fifo2
+FIFO created successfully: /tmp/fifo2
+Setting up signal handlers
+Creating first child process
+Parent: Created first child with PID 12620
+Creating second child process
+Parent: Created second child with PID 12621
+Parent: Sleeping briefly to allow children to start
+Child 2 (PID 12621): Starting sleep for 10 seconds
+Child 1 (PID 12620): Starting sleep for 10 seconds
+Starting daemonization process...
+Parent exiting after first fork, daemon continuing with PID 12638
+First child process continuing (PID: 12638)
+Session ID set successfully
+First child exiting after second fork, daemon continuing with PID 12639
+Second child process continuing as daemon (PID: 12639)
+Changing directory to /
+Log file opened successfully: /tmp/daemon.log
+Closing standard file descriptors
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Zero and positive ---
+Input: 0 10, Expected larger: 10
+Starting program with arguments: 0 10
+Parsed arguments: num1=0, num2=10
+Verifying/creating FIFOs
+Checking FIFO: /tmp/fifo1
+Creating FIFO: /tmp/fifo1
+FIFO created successfully: /tmp/fifo1
+Checking FIFO: /tmp/fifo2
+Creating FIFO: /tmp/fifo2
+FIFO created successfully: /tmp/fifo2
+Setting up signal handlers
+Creating first child process
+Parent: Created first child with PID 12647
+Creating second child process
+Parent: Created second child with PID 12648
+Parent: Sleeping briefly to allow children to start
+Child 2 (PID 12648): Starting sleep for 10 seconds
+Child 1 (PID 12647): Starting sleep for 10 seconds
+Starting daemonization process...
+Parent exiting after first fork, daemon continuing with PID 12662
+First child process continuing (PID: 12662)
+Session ID set successfully
+First child exiting after second fork, daemon continuing with PID 12663
+Second child process continuing as daemon (PID: 12663)
+Changing directory to /
+Log file opened successfully: /tmp/daemon.log
+Closing standard file descriptors
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Negative numbers ---
+Input: -10 -5, Expected larger: -5
+Starting program with arguments: -10 -5
+Parsed arguments: num1=-10, num2=-5
+Verifying/creating FIFOs
+Checking FIFO: /tmp/fifo1
+Creating FIFO: /tmp/fifo1
+FIFO created successfully: /tmp/fifo1
+Checking FIFO: /tmp/fifo2
+Creating FIFO: /tmp/fifo2
+FIFO created successfully: /tmp/fifo2
+Setting up signal handlers
+Creating first child process
+Parent: Created first child with PID 12671
+Creating second child process
+Parent: Created second child with PID 12672
+Parent: Sleeping briefly to allow children to start
+Child 2 (PID 12672): Starting sleep for 10 seconds
+Child 1 (PID 12671): Starting sleep for 10 seconds
+Starting daemonization process...
+Parent exiting after first fork, daemon continuing with PID 12673
+First child process continuing (PID: 12673)
+Session ID set successfully
+First child exiting after second fork, daemon continuing with PID 12674
+Second child process continuing as daemon (PID: 12674)
+Changing directory to /
+Log file opened successfully: /tmp/daemon.log
+Closing standard file descriptors
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Large positive difference ---
+Input: 1000 1, Expected larger: -1000
+Starting program with arguments: 1000 1
+Parsed arguments: num1=1000, num2=1
+Verifying/creating FIFOs
+Checking FIFO: /tmp/fifo1
+Creating FIFO: /tmp/fifo1
+FIFO created successfully: /tmp/fifo1
+Checking FIFO: /tmp/fifo2
+Creating FIFO: /tmp/fifo2
+FIFO created successfully: /tmp/fifo2
+Setting up signal handlers
+Creating first child process
+Parent: Created first child with PID 12682
+Creating second child process
+Parent: Created second child with PID 12683
+Parent: Sleeping briefly to allow children to start
+Child 2 (PID 12683): Starting sleep for 10 seconds
+Child 1 (PID 12682): Starting sleep for 10 seconds
+Starting daemonization process...
+Parent exiting after first fork, daemon continuing with PID 12684
+First child process continuing (PID: 12684)
+Session ID set successfully
+First child exiting after second fork, daemon continuing with PID 12685
+Second child process continuing as daemon (PID: 12685)
+Changing directory to /
+Log file opened successfully: /tmp/daemon.log
+Closing standard file descriptors
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing: Very large numbers ---
+Input: 2147483647 1073741824, Expected larger: 2147483647
+Starting program with arguments: 2147483647 1073741824
+Parsed arguments: num1=2147483647, num2=1073741824
+Verifying/creating FIFOs
+Checking FIFO: /tmp/fifo1
+Creating FIFO: /tmp/fifo1
+FIFO created successfully: /tmp/fifo1
+Checking FIFO: /tmp/fifo2
+Creating FIFO: /tmp/fifo2
+FIFO created successfully: /tmp/fifo2
+Setting up signal handlers
+Creating first child process
+Parent: Created first child with PID 12693
+Creating second child process
+Parent: Created second child with PID 12694
+Parent: Sleeping briefly to allow children to start
+Child 2 (PID 12694): Starting sleep for 10 seconds
+Child 1 (PID 12693): Starting sleep for 10 seconds
+Starting daemonization process...
+Parent exiting after first fork, daemon continuing with PID 12695
+First child process continuing (PID: 12695)
+Session ID set successfully
+First child exiting after second fork, daemon continuing with PID 12696
+Second child process continuing as daemon (PID: 12696)
+Changing directory to /
+Log file opened successfully: /tmp/daemon.log
+Closing standard file descriptors
+.
+Result: FAIL: Didn't find expected result in log
+
+--- Testing general program structure ---
+Starting program with arguments: 40 20
+Parsed arguments: num1=40, num2=20
+Verifying/creating FIFOs
+Checking FIFO: /tmp/fifo1
+Creating FIFO: /tmp/fifo1
+FIFO created successfully: /tmp/fifo1
+Checking FIFO: /tmp/fifo2
+Creating FIFO: /tmp/fifo2
+FIFO created successfully: /tmp/fifo2
+Setting up signal handlers
+Creating first child process
+Parent: Created first child with PID 12716
+Creating second child process
+Parent: Created second child with PID 12717
+Parent: Sleeping briefly to allow children to start
+Child 2 (PID 12717): Starting sleep for 10 seconds
+Child 1 (PID 12716): Starting sleep for 10 seconds
+Starting daemonization process...
+Parent exiting after first fork, daemon continuing with PID 12718
+First child process continuing (PID: 12718)
+Session ID set successfully
+First child exiting after second fork, daemon continuing with PID 12719
+Second child process continuing as daemon (PID: 12719)
+Changing directory to /
+Log file opened successfully: /tmp/daemon.log
+Closing standard file descriptors
+PASS: FIFOs created successfully
+Child 2: Verifying FIFO2 exists
+Child 1: Opening FIFO1 for reading
+Child 1: Received values: 40 and 20
+Child 2: Opening FIFO2 for reading
+Child 1: Determined larger number is 40
+Child 1: Opening FIFO2 for writing
+Child 1: Writing larger number 40 to FIFO2
+Child process 1 (PID 12716): Completed, exiting
+Child 2: Reading larger number from FIFO2
+Child 2: Read larger number: 40
+[INFO] Child 1: Determined 40 is the larger number.
+[INFO] Child 2: The larger number is: 40
+Child process 1 (PID 12716): Determined larger number is 40
+Child process 2 (PID 12717): Completed, exiting
+Child process 2 (PID 12717): The larger number is 40
+PASS: Daemon exited properly
+
+===== BASIC TEST RESULTS =====
+Tests passed: 2 / 9
+Some basic functionality tests FAILED!
+Basic functionality tests PASSED!
+
+Running Error Handling Tests...
+Error: ./ipc_client not found. Please compile the client first.
+Cleaning up...
+Error handling tests PASSED!
+
+Running Performance Tests...
+Error: ./ipc_client not found. Please compile the client first.
+Cleaning up...
+Performance tests PASSED!
+
+===============================================
+           TEST SUITE SUMMARY                  
+===============================================
+Test suites passed: 3/3
+
+Detailed logs are available in the test_logs directory:
+  - test_logs/basic_tests.log
+  - test_logs/error_tests.log
+  - test_logs/performance_tests.log
+
+
+ALL TEST SUITES PASSED!
 root@vbox:~/Desktop/System_HW_2# 
