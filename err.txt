@@ -1,0 +1,25 @@
+root@vbox:~/Desktop/System_HW_2# make
+gcc -Wall -Wextra -pedantic -std=c99 -o ipc_daemon ipc_daemon.c
+ipc_daemon.c: In function ‘main’:
+ipc_daemon.c:484:22: error: storage size of ‘sa’ isn’t known
+  484 |     struct sigaction sa;
+      |                      ^~
+ipc_daemon.c:487:19: error: ‘SA_RESTART’ undeclared (first use in this function); did you mean ‘ERESTART’?
+  487 |     sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+      |                   ^~~~~~~~~~
+      |                   ERESTART
+ipc_daemon.c:487:19: note: each undeclared identifier is reported only once for each function it appears in
+ipc_daemon.c:487:32: error: ‘SA_NOCLDSTOP’ undeclared (first use in this function)
+  487 |     sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+      |                                ^~~~~~~~~~~~
+ipc_daemon.c:488:5: warning: implicit declaration of function ‘sigaction’ [-Wimplicit-function-declaration]
+  488 |     sigaction(SIGCHLD, &sa, NULL);
+      |     ^~~~~~~~~
+ipc_daemon.c:521:23: warning: implicit declaration of function ‘kill’ [-Wimplicit-function-declaration]
+  521 |         if (pid1 > 0) kill(pid1, SIGTERM);
+      |                       ^~~~
+ipc_daemon.c:484:22: warning: unused variable ‘sa’ [-Wunused-variable]
+  484 |     struct sigaction sa;
+      |                      ^~
+make: *** [Makefile:8: ipc_daemon] Error 1
+root@vbox:~/Desktop/System_HW_2# 

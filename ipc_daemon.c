@@ -534,7 +534,7 @@ int main(int argc, char *argv[]) {
     
     // Give child processes a moment to start
     fprintf(stderr, "Parent: Sleeping briefly to allow children to start\n");
-    usleep(100000);  // Sleep for 100ms
+    sleep(100000);  // Sleep for 100ms
     
     // Convert parent process to daemon
     daemonize();
